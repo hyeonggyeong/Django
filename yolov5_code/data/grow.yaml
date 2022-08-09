@@ -1,0 +1,5 @@
+path: ./disease_data/tomato2
+train: train/images
+val: val/images
+nc: 5
+names: ['0','Growth','Vegetative growth','Fruit','Harvest']
