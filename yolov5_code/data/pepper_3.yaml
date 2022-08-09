@@ -1,0 +1,5 @@
+path: ./disease_data/pepper_3
+train: train/images
+val: val/images
+nc: 20
+names: ['normal','1','2','Pepper mild mottle virus','Pepper Bacterial spot','5','6','7','8','Sclerotinia rot','Downy mildew','11','12','13','14','15','16','17','Leaf_Mold', 'Yellow_Leaf']
