@@ -56,8 +56,6 @@ class UploadImage(CreateView):
 
         if form.is_valid():
             img = request.FILES.get('image')
-
-         
             img_instance = ImageModel(
                 image=img
             )
@@ -98,7 +96,7 @@ class UploadImage(CreateView):
     
     
 
-#테스트용
+#테스트용  #todo 받은 이미지로 ai모델
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
