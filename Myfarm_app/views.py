@@ -47,20 +47,20 @@ def fileUpload2(request):
 def yolodetect(request):
     if request.method == 'POST':
         img = request.FILES["image"]
-        print("[1]",img)
+        # print("[1]",img)
         img_instance= Person(
             image=img,
         )   
         img_instance.save()
-        print("[2]",img)
-        print("[3]",img_instance)
+        # print("[2]",img)
+        # print("[3]",img_instance)
         
         uploaded_img_qs = Person.objects.filter().last()
-        print("[4]")
+        # print("[4]")
         img_bytes = uploaded_img_qs.image.read()
-        print("[5]")
+        # print("[5]")
         img = im.open(io.BytesIO(img_bytes))
-        print("[6]")
+        # print("[6]")
         
         # uploaded_img_qs = ImageModel.objects.filter().last()
         # img_bytes = uploaded_img_qs.image.read()
@@ -100,20 +100,20 @@ class UploadImage(CreateView):
                 image=img
             )
             img_instance.save()
-            print("[1]" , request)
+            # print("[1]" , request)
             
-            print("[2]" , request.POST)
-            print("[3]" , request.FILES)
-            print("[3.5]",img)
-            print("[3.6]",img_instance)
-            print("[4]" , type(request.POST))
-            print("[5]" , type(request.FILES))
+            # print("[2]" , request.POST)
+            # print("[3]" , request.FILES)
+            # print("[3.5]",img)
+            # print("[3.6]",img_instance)
+            # print("[4]" , type(request.POST))
+            # print("[5]" , type(request.FILES))
             
             uploaded_img_qs = ImageModel.objects.filter().last()
             img_bytes = uploaded_img_qs.image.read()
             img = im.open(io.BytesIO(img_bytes))
-            print("[6]" , ImageModel.objects)
-            print("[7]" , uploaded_img_qs)
+            # print("[6]" , ImageModel.objects)
+            # print("[7]" , uploaded_img_qs)
             # Change this to the correct path
             path_hubconfig = "yolov5_code"
             path_weightfile = "yolov5_code/weight/pepper/best.pt"  # 커스텀 모델

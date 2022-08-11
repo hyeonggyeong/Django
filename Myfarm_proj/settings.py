@@ -145,6 +145,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+#통신관련 setting
 CORS_ORIGIN_WHITELIST = ['http://192.168.0.76:8080'] #'http://localhost:8080'
 CORS_ALLOW_CREDENTIALS = False
 CORS_REPLACE_HTTPS_REFERER      = False
