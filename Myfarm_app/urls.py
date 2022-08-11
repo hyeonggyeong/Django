@@ -6,5 +6,6 @@ from . import views
 
 urlpatterns = [
     path("", views.UploadImage.as_view(), name="upload_image_url"),
+    # path("test/", views.UploadImage2.as_view(), name="upload_image_url"),
 
 ]

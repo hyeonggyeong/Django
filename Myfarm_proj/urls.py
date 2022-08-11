@@ -18,6 +18,7 @@ urlpatterns = [
     path('yolo/', include("Myfarm_app.urls")),#app폴더 내 urls.py에 명시했을 때, 이렇게 사용
     re_path(r'^', include(router.urls)),
     re_path(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
+    path('def/',Myfarm_app.views.yolodetect, name='yolodetect'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
 
