@@ -1,6 +1,7 @@
 from cgitb import html
 from dataclasses import field, fields
 from typing import Text
+from venv import create
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from .forms import  FileUploadForm2, ImageUploadForm
@@ -42,6 +43,45 @@ def fileUpload2(request):
             'fileuploadForm2': fileuploadForm2,
         }
         return render(request, 'Myfarm_app/fileupload.html', context)
+#yolo test _20220810
+def yolodetect(request):
+    if request.method == 'POST':
+        img = request.FILES["image"]
+        print("[1]",img)
+        img_instance= Person(
+            image=img,
+        )   
+        img_instance.save()
+        print("[2]",img)
+        print("[3]",img_instance)
+        
+        uploaded_img_qs = Person.objects.filter().last()
+        print("[4]")
+        img_bytes = uploaded_img_qs.image.read()
+        print("[5]")
+        img = im.open(io.BytesIO(img_bytes))
+        print("[6]")
+        
+        # uploaded_img_qs = ImageModel.objects.filter().last()
+        # img_bytes = uploaded_img_qs.image.read()
+        # img = im.open(io.BytesIO(img_bytes))
+        
+        path_hubconfig = "yolov5_code"
+        path_weightfile = "yolov5_code/weight/pepper/best.pt"  # 커스텀 모델
+        model = torch.hub.load(path_hubconfig, 'custom',path=path_weightfile, source='local')
+
+        results = model(img, size=640)
+        print('result',results)
+        results.render()
+        for img in results.imgs:
+            img_base64 = im.fromarray(img)
+            img_base64.save("media/yolo_out/image1.jpg", format="JPEG")
+            
+        return render(request, 'Myfarm_app/success.html')
+        
+    
+    else:
+        return print('실패')
 
 
 # AI모델 적용 전용
@@ -60,12 +100,20 @@ class UploadImage(CreateView):
                 image=img
             )
             img_instance.save()
-
-
+            print("[1]" , request)
+            
+            print("[2]" , request.POST)
+            print("[3]" , request.FILES)
+            print("[3.5]",img)
+            print("[3.6]",img_instance)
+            print("[4]" , type(request.POST))
+            print("[5]" , type(request.FILES))
+            
             uploaded_img_qs = ImageModel.objects.filter().last()
             img_bytes = uploaded_img_qs.image.read()
             img = im.open(io.BytesIO(img_bytes))
-            
+            print("[6]" , ImageModel.objects)
+            print("[7]" , uploaded_img_qs)
             # Change this to the correct path
             path_hubconfig = "yolov5_code"
             path_weightfile = "yolov5_code/weight/pepper/best.pt"  # 커스텀 모델
@@ -100,14 +148,12 @@ class UploadImage(CreateView):
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
-  
-    
+
+
 
 
 # 원하는 IP와 포트로 서버 열기
 # TODO : python manage.py runserver 192.168.0.76:8080
-
-
 #! Flutter <-> Django Connect (수정 중)
 # from rest_framework import status
 # from rest_framework.response import Response
