@@ -43,25 +43,20 @@ def fileUpload2(request):
             'fileuploadForm2': fileuploadForm2,
         }
         return render(request, 'Myfarm_app/fileupload.html', context)
-#yolo test _20220810
-def yolodetect(request):
+    
+############################# 고추 AI 모델#################################################
+def pepper_detect(request):
     if request.method == 'POST':
         img = request.FILES["image"]
-        # print("[1]",img)
+
         img_instance= Person(
             image=img,
         )   
-        img_instance.save()
-        # print("[2]",img)
-        # print("[3]",img_instance)
-        
+        img_instance.save()   
         uploaded_img_qs = Person.objects.filter().last()
-        # print("[4]")
         img_bytes = uploaded_img_qs.image.read()
-        # print("[5]")
         img = im.open(io.BytesIO(img_bytes))
-        # print("[6]")
-        
+
         # uploaded_img_qs = ImageModel.objects.filter().last()
         # img_bytes = uploaded_img_qs.image.read()
         # img = im.open(io.BytesIO(img_bytes))
@@ -75,7 +70,42 @@ def yolodetect(request):
         results.render()
         for img in results.imgs:
             img_base64 = im.fromarray(img)
-            img_base64.save("media/yolo_out/image1.jpg", format="JPEG")
+            img_base64.save("media/yolo_out/image_pepper.jpg", format="JPEG")
+            
+        return render(request, 'Myfarm_app/success.html')
+        
+    
+    else:
+        return print('실패')
+    
+    
+############################# 상추 AI 모델#################################################
+def lettuce_detect(request):
+    if request.method == 'POST':
+        img = request.FILES["image"]
+
+        img_instance= Person(
+            image=img,
+        )   
+        img_instance.save()   
+        uploaded_img_qs = Person.objects.filter().last()
+        img_bytes = uploaded_img_qs.image.read()
+        img = im.open(io.BytesIO(img_bytes))
+        
+        # uploaded_img_qs = ImageModel.objects.filter().last()
+        # img_bytes = uploaded_img_qs.image.read()
+        # img = im.open(io.BytesIO(img_bytes))
+        
+        path_hubconfig = "yolov5_code"
+        path_weightfile = "yolov5_code/weight/lettuce/best.pt"  # 커스텀 모델
+        model = torch.hub.load(path_hubconfig, 'custom',path=path_weightfile, source='local')
+
+        results = model(img, size=640)
+        print('result',results)
+        results.render()
+        for img in results.imgs:
+            img_base64 = im.fromarray(img)
+            img_base64.save("media/yolo_out/image_lettuce.jpg", format="JPEG")
             
         return render(request, 'Myfarm_app/success.html')
         
@@ -83,7 +113,39 @@ def yolodetect(request):
     else:
         return print('실패')
 
+#############################방울토마토 AI 모델#################################################
+def tomato_detect(request):
+    if request.method == 'POST':
+        img = request.FILES["image"]
 
+        img_instance= Person(
+            image=img,
+        )   
+        img_instance.save()   
+        uploaded_img_qs = Person.objects.filter().last()
+        img_bytes = uploaded_img_qs.image.read()
+        img = im.open(io.BytesIO(img_bytes))
+        
+        # uploaded_img_qs = ImageModel.objects.filter().last()
+        # img_bytes = uploaded_img_qs.image.read()
+        # img = im.open(io.BytesIO(img_bytes))
+        
+        path_hubconfig = "yolov5_code"
+        path_weightfile = "yolov5_code/weight/tomato/best.pt"  # 커스텀 모델
+        model = torch.hub.load(path_hubconfig, 'custom',path=path_weightfile, source='local')
+
+        results = model(img, size=640)
+        print('result',results)
+        results.render()
+        for img in results.imgs:
+            img_base64 = im.fromarray(img)
+            img_base64.save("media/yolo_out/image_tomato.jpg", format="JPEG")
+            
+        return render(request, 'Myfarm_app/success.html')
+        
+    
+    else:
+        return print('실패')
 # AI모델 적용 전용
 
 class UploadImage(CreateView):
@@ -151,7 +213,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 
 
-
+#ㅁㄴㅇㅁㄴㅇㅁㄴㅇ
 # 원하는 IP와 포트로 서버 열기
 # TODO : python manage.py runserver 192.168.0.76:8080
 #! Flutter <-> Django Connect (수정 중)
